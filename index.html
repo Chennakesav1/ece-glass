@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECE Portfolio | 3D Glass</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function () {
+            // REPLACE 'YOUR_PUBLIC_KEY' WITH YOUR ACTUAL KEY FROM EMAILJS
+            emailjs.init("YOUR_PUBLIC_KEY");
+        })();
+    </script>
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --primary: #00d2ff;
+            --secondary: #3a7bd5;
+            --text: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            perspective: 1000px;
+            /* Essential for 3D */
+        }
+
+        /* Moving Background Shapes for Depth */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            animation: float 10s infinite alternate;
+        }
+
+        .orb-1 {
+            width: 300px;
+            height: 300px;
+            background: var(--primary);
+            top: 10%;
+            left: 10%;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: #ff007f;
+            bottom: 10%;
+            right: 10%;
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            from {
+                transform: translate(0, 0);
+            }
+
+            to {
+                transform: translate(20px, 40px);
+            }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 600px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-around;
+            z-index: 100;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
+        }
+
+        /* Sections */
+        section {
+            min-height: 100vh;
+            padding: 100px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h1,
+        h2 {
+            font-size: 3rem;
+            margin-bottom: 40px;
+            text-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            transform: translateZ(50px);
+            /* 3D Text */
+        }
+
+        /* 3D Glass Card Style */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.5),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transform-style: preserve-3d;
+            max-width: 800px;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        /* 3D Hover Effect */
+        .glass-card:hover {
+            transform: translateY(-10px) rotateX(2deg) rotateY(2deg);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .skill-btn {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            border: 1px solid var(--glass-border);
+            padding: 15px 30px;
+            color: white;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: 0.2s;
+            transform: translateZ(20px);
+        }
+
+        .skill-btn:active {
+            transform: translateZ(10px) scale(0.95);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Project Blocks */
+        .project-block {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            transform: translateZ(30px);
+        }
+
+        .project-img {
+            width: 100px;
+            height: 100px;
+            background: #333;
+            border-radius: 10px;
+            object-fit: cover;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Contact Form */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+        }
+
+        input,
+        textarea {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus,
+        textarea:focus {
+            background: rgba(0, 0, 0, 0.5);
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+        }
+
+        button.submit-btn {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        button.submit-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(98, 141, 33, 0.4);
+        }
+
+        button.submit-btn:active {
+            transform: translateY(1px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <section id="home">
+        <div class="glass-card home-card">
+
+            <div class="text-content">
+                <h1>Hello, I'm <br><span style="color: var(--primary);">Future ECE Engineer</span></h1>
+                <p style="font-size: 1.2rem; margin-bottom: 20px; color: #ddd;">
+                    Electronics & Communication Engineering Student
+                </p>
+                <p>
+                    Specializing in <span style="color: var(--secondary); font-weight: bold;">Embedded Systems</span>
+                    and <span style="color: var(--secondary); font-weight: bold;">Web Technologies</span>.
+                    I build bridges between hardware and software.
+                </p>
+
+                <br>
+                <a href="#projects" style="text-decoration: none;">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    
+                    <button class="submit-btn" style="padding: 10px 25px; margin-top: 10px;">View My Work</button>
+                </a>
+            </div>
+
+            <div class="image-content">
+                <img src="images/WhatsApp Image 2023-10-19 at 12.01.39_5350f608.jpg" alt="Profile Picture"
+                    class="profile-img">
+            </div>
+
+        </div>
+    </section>
+
+    <section id="skills">
+        <h2>My Arsenal</h2>
+
+        <div class="skills-container">
+
+            <div class="skill-card">
+                <img src="https://cdn-icons-png.flaticon.com/512/3665/3665923.png" alt="C" class="skill-icon">
+                <div class="skill-title">Embedded C</div>
+                <div class="skill-desc">
+                    Proficient in register-level programming for ARM and AVR microcontrollers.
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <img src="https://cdn-icons-png.flaticon.com/512/5968/5968350.png" alt="Python" class="skill-icon">
+                <div class="skill-title">Python</div>
+                <div class="skill-desc">
+                    Automation, Data Analysis, and integrating ML models with hardware.
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <img src="https://cdn-icons-png.flaticon.com/512/3203/3203632.png" alt="IoT" class="skill-icon">
+                <div class="skill-title">IoT Solutions</div>
+                <div class="skill-desc">
+                    ESP32 & NodeMCU integration with MQTT, AWS IoT, and Blynk apps.
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <img src="https://cdn-icons-png.flaticon.com/512/2618/2618453.png" alt="PCB" class="skill-icon">
+                <div class="skill-title">PCB Design</div>
+                <div class="skill-desc">
+                    Designing multi-layer schematics using KiCad and Eagle CAD.
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <img src="https://cdn-icons-png.flaticon.com/512/2103/2103633.png" alt="Verilog" class="skill-icon">
+                <div class="skill-title">Verilog HDL</div>
+                <div class="skill-desc">
+                    Digital system design and FPGA synthesis (Xilinx Vivado).
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <img src="https://cdn-icons-png.flaticon.com/512/1051/1051277.png" alt="Web" class="skill-icon">
+                <div class="skill-title">Web Interfaces</div>
+                <div class="skill-desc">
+                    Creating control dashboards using HTML5, CSS3, and JavaScript.
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <img src="https://cdn-icons-png.flaticon.com/512/1051/1051277.png" alt="Web" class="skill-icon">
+                <div class="skill-title">Web Interfaces</div>
+                <div class="skill-desc">
+                    Creating control dashboards using HTML5, CSS3, and JavaScript.
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <img src="https://cdn-icons-png.flaticon.com/512/1051/1051277.png" alt="Web" class="skill-icon">
+                <div class="skill-title">Web Interfaces</div>
+                <div class="skill-desc">
+                    Creating control dashboards using HTML5, CSS3, and JavaScript.
+                </div>
+            </div>
+
+
+            <div class="skill-card">
+                <img src="https://cdn-icons-png.flaticon.com/512/2103/2103633.png" alt="Verilog" class="skill-icon">
+                <div class="skill-title">Verilog HDL</div>
+                <div class="skill-desc">
+                    Digital system design and FPGA synthesis (Xilinx Vivado).
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <img src="https://cdn-icons-png.flaticon.com/512/1051/1051277.png" alt="Web" class="skill-icon">
+                <div class="skill-title">Web Interfaces</div>
+                <div class="skill-desc">
+                    Creating control dashboards using HTML5, CSS3, and JavaScript.
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <img src="https://cdn-icons-png.flaticon.com/512/1051/1051277.png" alt="Web" class="skill-icon">
+                <div class="skill-title">Web Interfaces</div>
+                <div class="skill-desc">
+                    Creating control dashboards using HTML5, CSS3, and JavaScript.
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <img src="https://cdn-icons-png.flaticon.com/512/1051/1051277.png" alt="Web" class="skill-icon">
+                <div class="skill-title">Web Interfaces</div>
+                <div class="skill-desc">
+                    Creating control dashboards using HTML5, CSS3, and JavaScript.
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2>Projects</h2>
+        <div class="glass-card">
+            <div class="project-block">
+                <img src="https://via.placeholder.com/100/00d2ff/ffffff?text=IoT" alt="Project 1" class="project-img">
+                <div>
+                    <h3>Smart Home Automation</h3>
+                    <p>IoT based home control using Arduino and NodeMCU with voice commands.</p>
+                </div>
+            </div>
+            <div class="project-block">
+                <img src="https://via.placeholder.com/100/ff007f/ffffff?text=VLSI" alt="Project 2" class="project-img">
+                <div>
+                    <h3>Traffic Light Controller</h3>
+                    <p>FPGA implementation of a 4-way traffic controller using Verilog HDL.</p>
+                </div>
+            </div>
+
+            <div class="project-block">
+                <img src="https://via.placeholder.com/100/00d2ff/ffffff?text=IoT" alt="Project 1" class="project-img">
+                <div>
+                    <h3>Smart Home Automation</h3>
+                    <p>IoT based home control using Arduino and NodeMCU with voice commands.</p>
+                </div>
+            </div>
+            <div class="project-block">
+                <img src="https://via.placeholder.com/100/ff007f/ffffff?text=VLSI" alt="Project 2" class="project-img">
+                <div>
+                    <h3>Traffic Light Controller</h3>
+                    <p>FPGA implementation of a 4-way traffic controller using Verilog HDL.</p>
+                </div>
+            </div>
+
+            <div class="project-block">
+                <img src="https://via.placeholder.com/100/00d2ff/ffffff?text=IoT" alt="Project 1" class="project-img">
+                <div>
+                    <h3>Smart Home Automation</h3>
+                    <p>IoT based home control using Arduino and NodeMCU with voice commands.</p>
+                </div>
+            </div>
+            <div class="project-block">
+                <img src="https://via.placeholder.com/100/ff007f/ffffff?text=VLSI" alt="Project 2" class="project-img">
+                <div>
+                    <h3>Traffic Light Controller</h3>
+                    <p>FPGA implementation of a 4-way traffic controller using Verilog HDL.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Get In Touch</h2>
+
+        <div class="glass-card" style="max-width: 900px; width: 100%;">
+
+            <div class="contact-grid">
+
+                <div class="contact-box">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Call Me</h3>
+                    <p>+91 98765 43210</p>
+                    <p>Mon-Fri, 9am - 6pm</p>
+                </div>
+
+                <div class="contact-box">
+                    <i class="fas fa-paper-plane"></i>
+                    <h3>Email</h3>
+                    <p>engineer@example.com</p>
+                    <p>Reply within 24h</p>
+                </div>
+
+                <div class="contact-box">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <h3>Location</h3>
+                    <p>Hyderabad, India</p>
+                    <p>Open to Relocation</p>
+                </div>
+
+            </div>
+            <form id="contact-form">
+                <input type="text" name="user_name" placeholder="Your Name" required>
+                <input type="email" name="user_email" placeholder="Your Email" required>
+                <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+
+        </div>
+    </section>
+    <footer>
+
+        <div style="width: 100px;"></div>
+
+        <div class="copyright">
+            &copy; 2026 ECE Engineer. All Rights Reserved.
+        </div>
+
+        <div class="social-links">
+
+            <a href="https://youtube.com" target="_blank" class="social-btn youtube">
+                <i class="fab fa-youtube"></i>
+            </a>
+
+            <a href="https://github.com" target="_blank" class="social-btn github">
+                <i class="fab fa-github"></i>
+            </a>
+
+            <a href="https://linkedin.com" target="_blank" class="social-btn linkedin">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+
+        </div>
+    </footer>
+
+    <script>
+        // 1. 3D Tilt Effect Script
+        const cards = document.querySelectorAll('.glass-card');
+
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const rotateX = ((y - centerY) / centerY) * -5; // Tilt strength
+                const rotateY = ((x - centerX) / centerX) * 5;
+
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+            });
+        });
+
+        // 2. EmailJS Configuration (Free Email Notification)
+        // Note: Using "On Page Load" emails will drain your free quota instantly (200/month).
+        // It is best practice to send emails when the user submits the form.
+
+        document.getElementById('contact-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const btn = this.querySelector('button');
+            btn.innerText = 'Sending...';
+
+            // Replace 'YOUR_SERVICE_ID' and 'YOUR_TEMPLATE_ID' with actual EmailJS IDs
+            emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this)
+                .then(function () {
+                    alert('Message Sent! The owner has been notified.');
+                    btn.innerText = 'Send Message';
+                }, function (error) {
+                    alert('Failed to send: ' + JSON.stringify(error));
+                    btn.innerText = 'Send Message';
+                });
+        });
+    </script>
+</body>
+
+</html>
